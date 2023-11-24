@@ -15,6 +15,8 @@ This script is intended for educational purposes only. Ensure you have proper au
 - Python 3.6 or later
 - Git
 - Administrative privileges for some operations (sudo)
+- 
+### We seriously advise you to read the manual.md. This file will have a practical and short manual how to operate this script
 
 ## Installation
 
@@ -57,3 +59,15 @@ Follow the on-screen prompts and choose the desired option. Ensure to follow eth
 License
 
 This project is licensed under the MIT License.
+How to Contribute
+
+    Fork the repository to your GitHub account.
+    Create a new branch for your contribution: git checkout -b feature/your-feature.
+    Implement the desired feature or improvement.
+    Commit your changes: git commit -m "Add your commit message".
+    Push the changes to your fork: git push origin feature/your-feature.
+    Create a pull request from your fork to the main repository.
+
+Thank you for your contributions!
+
+
