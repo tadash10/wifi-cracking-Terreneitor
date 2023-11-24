@@ -1,20 +1,36 @@
 import subprocess
 import platform
 
-def install_hashcat_ubuntu():
+def install_hashcat(distribution):
     try:
-        subprocess.run("sudo apt-get update", shell=True, check=True)
-        subprocess.run("sudo apt-get install -y hashcat", shell=True, check=True)
-        print("Hashcat installed successfully.")
-    except subprocess.CalledProcessError as e:
-        print(f"Error installing Hashcat on Ubuntu: {e}")
+        if distribution == "ubuntu":
+            subprocess.run("sudo apt-get update", shell=True, check=True)
+            subprocess.run("sudo apt-get install -y hashcat", shell=True, check=True)
+        elif distribution == "arch":
+            subprocess.run("sudo pacman -Syu hashcat", shell=True, check=True)
+        else:
+            print("Unsupported distribution. Exiting.")
+            exit()
 
-def install_hashcat_arch():
-    try:
-        subprocess.run("sudo pacman -Syu hashcat", shell=True, check=True)
         print("Hashcat installed successfully.")
     except subprocess.CalledProcessError as e:
-        print(f"Error installing Hashcat on Arch Linux: {e}")
+        print(f"Error installing Hashcat: {e}")
+        exit()
+
+def install_aircrack(distribution):
+    try:
+        if distribution == "ubuntu":
+            subprocess.run("sudo apt-get install -y aircrack-ng", shell=True, check=True)
+        elif distribution == "arch":
+            subprocess.run("sudo pacman -Syu aircrack-ng", shell=True, check=True)
+        else:
+            print("Unsupported distribution. Exiting.")
+            exit()
+
+        print("Aircrack-ng installed successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error installing Aircrack-ng: {e}")
+        exit()
 
 def test_wifi_with_hashcat(ssid, bssid, handshake_file):
     # Replace the placeholders with your Hashcat command parameters
@@ -41,11 +57,13 @@ if __name__ == "__main__":
     choice = input("Enter the number corresponding to your choice: ")
 
     if choice == "1":
-        # Install Hashcat on Ubuntu
-        install_hashcat_ubuntu()
+        # Install Hashcat and Aircrack-ng on Ubuntu
+        install_hashcat("ubuntu")
+        install_aircrack("ubuntu")
     elif choice == "2":
-        # Install Hashcat on Arch Linux
-        install_hashcat_arch()
+        # Install Hashcat and Aircrack-ng on Arch Linux
+        install_hashcat("arch")
+        install_aircrack("arch")
     else:
         print("Invalid choice. Exiting.")
         exit()
