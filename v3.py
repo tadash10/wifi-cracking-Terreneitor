@@ -2,6 +2,7 @@ import subprocess
 import platform
 from tqdm import tqdm
 import argparse
+from wifi_testing_logger import setup_logger, log_info, log_warning, log_error, log_exception, log_debug
 
 def disclaimer():
     print("Disclaimer: This script is intended for educational purposes only. Ensure you have proper authorization "
