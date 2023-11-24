@@ -8,6 +8,7 @@ from error_handling import (
     install_hashcat_kali, install_hashcat_parrot, check_chipset_compatibility,
     enable_monitor_mode, start_analysis
 )
+from cleanup import cleanup  # Import the cleanup function
 
 def disclaimer():
     print("Disclaimer: This script is intended for educational purposes only. Ensure you have proper authorization "
@@ -34,10 +35,10 @@ if __name__ == "__main__":
 
     args = parse_arguments()
 
-    # Set up logging - You can customize this based on your logging requirements
+    # Set up logging...
     setup_logger()
 
-    # Install Hashcat and related tools based on the selected distribution
+    # Install Hashcat and related tools...
     install_functions = {
         "ubuntu": install_hashcat_ubuntu,
         "arch": install_hashcat_arch,
@@ -52,19 +53,22 @@ if __name__ == "__main__":
         print("Invalid distribution. Exiting.")
         exit()
 
-    # Check Wi-Fi chipset compatibility
+    # Check Wi-Fi chipset compatibility...
     if not check_chipset_compatibility():
         print("Exiting script.")
         exit()
 
-    # Enable monitor mode on the specified interface
+    # Enable monitor mode on the specified interface...
     monitor_interface = enable_monitor_mode(args.interface)
     if monitor_interface is None:
         print("Exiting script.")
         exit()
 
-    # Start Wi-Fi analysis
+    # Start Wi-Fi analysis...
     start_analysis(monitor_interface)
 
-    # Test Wi-Fi with Hashcat
+    # Test Wi-Fi with Hashcat...
     test_wifi_with_hashcat("YourWiFiSSID", "YourWiFiBSSID", args.handshake_file, args.security_protocol, args.hashcat_params)
+
+    # Perform cleanup
+    cleanup()
