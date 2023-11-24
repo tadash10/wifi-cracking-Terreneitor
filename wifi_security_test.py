@@ -1,3 +1,5 @@
+# main_script.py
+
 import subprocess
 import argparse
 from tqdm import tqdm
@@ -30,6 +32,17 @@ def parse_arguments():
 
     return parser.parse_args()
 
+def user_menu():
+    print("\n=== User-Friendly Menu ===")
+    print("1. Install Tools")
+    print("2. Check Compatibility")
+    print("3. Enable Monitor Mode")
+    print("4. Start Wi-Fi Analysis")
+    print("5. Launch Cracking Attack")
+    print("6. Clean up and Exit")
+    choice = input("Enter your choice (1-6): ")
+    return choice
+
 if __name__ == "__main__":
     disclaimer()
 
@@ -38,37 +51,45 @@ if __name__ == "__main__":
     # Set up logging...
     setup_logger()
 
-    # Install Hashcat and related tools...
-    install_functions = {
-        "ubuntu": install_hashcat_ubuntu,
-        "arch": install_hashcat_arch,
-        "kali": install_hashcat_kali,
-        "parrot": install_hashcat_parrot
-    }
+    # Run the user-friendly menu...
+    while True:
+        choice = user_menu()
 
-    install_function = install_functions.get(args.distribution)
-    if install_function:
-        install_function()
-    else:
-        print("Invalid distribution. Exiting.")
-        exit()
+        if choice == "1":
+            # Install Hashcat and related tools...
+            install_functions = {
+                "ubuntu": install_hashcat_ubuntu,
+                "arch": install_hashcat_arch,
+                "kali": install_hashcat_kali,
+                "parrot": install_hashcat_parrot
+            }
 
-    # Check Wi-Fi chipset compatibility...
-    if not check_chipset_compatibility():
-        print("Exiting script.")
-        exit()
-
-    # Enable monitor mode on the specified interface...
-    monitor_interface = enable_monitor_mode(args.interface)
-    if monitor_interface is None:
-        print("Exiting script.")
-        exit()
-
-    # Start Wi-Fi analysis...
-    start_analysis(monitor_interface)
-
-    # Test Wi-Fi with Hashcat...
-    test_wifi_with_hashcat("YourWiFiSSID", "YourWiFiBSSID", args.handshake_file, args.security_protocol, args.hashcat_params)
-
-    # Perform cleanup
-    cleanup()
+            install_function = install_functions.get(args.distribution)
+            if install_function:
+                install_function()
+            else:
+                print("Invalid distribution. Try again.")
+        elif choice == "2":
+            # Check Wi-Fi chipset compatibility...
+            if not check_chipset_compatibility():
+                print("Exiting script.")
+                exit()
+        elif choice == "3":
+            # Enable monitor mode on the specified interface...
+            monitor_interface = enable_monitor_mode(args.interface)
+            if monitor_interface is None:
+                print("Exiting script.")
+                exit()
+        elif choice == "4":
+            # Start Wi-Fi analysis...
+            start_analysis(monitor_interface)  # Assuming monitor_interface is set in choice 3
+        elif choice == "5":
+            # Test Wi-Fi with Hashcat...
+            test_wifi_with_hashcat("YourWiFiSSID", "YourWiFiBSSID", args.handshake_file, args.security_protocol, args.hashcat_params)
+        elif choice == "6":
+            # Perform cleanup and exit...
+            cleanup()
+            print("Exiting script.")
+            exit()
+        else:
+            print("Invalid choice. Try again.")
